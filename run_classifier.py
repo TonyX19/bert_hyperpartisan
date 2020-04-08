@@ -779,6 +779,36 @@ def convert_examples_to_features(examples, label_list, max_seq_length,
     features.append(feature)
   return features
 
+class HyperProcessor(DataProcessor):
+  def get_train_examples(self,data_dir):
+    file_path = os.path.join(data_dir,'train.csv')
+    train_df = pd.read_csv(file_path,encoding='utf-8')
+    train_data = []
+    for index, train in enumerate(train_df.values):
+      guid = 'train-%d' % index
+      text_a = tokenization.convert_to_unicode(str(train[0]))
+      text_a = tokenization.convert_to_unicode(str(train[1]))
+      label = str(train[2])
+      train_data.append(InputExample(guid=guid, text_a=text_a, text_b=text_b, lable=label))
+    return train_data
+
+  def get_dev_exmples(self, data_dir):
+
+  def get_test_examples(self,data_dir):
+    file_path = os.path.join(data_dir,'test.csv')
+    test_df = pd.read_csv(file_path, enconding='utf-8')
+    test_data = []
+    for index, test in enumerate(test_df.values):
+      guid = 'test-%d' % index
+      test_a = tokenization.convert_to_unicode(str(test[0]))
+      test_b = tokenization.convert_to_unicode(str(test[1]))  
+      label = str(test[2])
+      test_data.append(InputExample(guid=guid,text_a=text_a,text_b=text_b,lable=label))
+
+    return test_data
+
+  def get_labels(self):
+    return ['0','1']
 
 def main(_):
   tf.logging.set_verbosity(tf.logging.INFO)
