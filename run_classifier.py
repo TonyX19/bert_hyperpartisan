@@ -793,6 +793,7 @@ class HyperProcessor(DataProcessor):
     return train_data
 
   def get_dev_exmples(self, data_dir):
+    return True;
 
   def get_test_examples(self,data_dir):
     file_path = os.path.join(data_dir,'test.csv')
